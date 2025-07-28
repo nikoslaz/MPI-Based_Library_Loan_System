@@ -43,6 +43,64 @@ An MPI-implemented distributed system simulating library operations with:
 | getMostPopularBook | Broadcast + Convergecast                     | GET_POPULAR_BK_INFO, ACK_BK_INFO |
 | checkNumBooksLoaned| Grid traversal + Tree convergecast           | NUM_BOOKS_LOANED, ACK_NBL        |
 
+## Data Structures
+
+### Library Node
+```c
+typedef struct {
+    int lib_id;
+    Book* collection;  // Linked list of books
+    int neighbors[4];  // Grid neighbors
+    int loan_count;
+} Library;
+```
+
+### Book
+
+```c
+typedef struct {
+    int b_id;
+    int cost;          // Random 5-100
+    int copies;
+    int times_loaned;
+} Book;
+```
+
+### Borrower Node
+
+```c
+typedef struct {
+    int borrower_id;
+    int parent_id;     // Tree structure
+    int children[MAX_CHILDREN];
+    Book* borrowed_books;
+} Borrower;
+```
+
+## Event Processing
+
+### Test File Format
+
+The test file contains a sequence of commands simulating borrower-library interactions:
+
+CONNECT <c_id1> <c_id2>
+START_LE_LIBR
+START_LE_LOANERS
+takeBook <c_id> <b_id>
+donateBook <c_id> <b_id> <n_copies>
+getMostPopularBook
+checkNumBooksLoaned
+
+
+### Message Types
+
+| Type                  | Purpose                          |
+|-----------------------|----------------------------------|
+| CONNECT / NEIGHBOR / ACK | Borrower tree construction        |
+| LEND_BOOK / GET_BOOK     | Book loan requests               |
+| FIND_BOOK / BOOK_REQUEST | Inter-library book location      |
+| ELECT / LE_LOANERS       | Borrower leader election         |
+
 RUN 1ST TEST :
     mpirun --mca btl_vader_single_copy_mechanism none -np 23 --oversubscribe ./mpi_program 3 testfiles_hy486/testfile0/loaners_13_libs_9_np_23.txt output.txt
 
