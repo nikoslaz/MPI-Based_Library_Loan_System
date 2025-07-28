@@ -1,7 +1,5 @@
 # Distributed Library Management System
 
-![System Architecture](system_architecture.png) <!-- Add diagram if available -->
-
 ## Overview
 An MPI-implemented distributed system simulating library operations with:
 - N×N grid of library processes
