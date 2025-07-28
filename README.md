@@ -81,15 +81,17 @@ typedef struct {
 
 ### Test File Format
 
-The test file contains a sequence of commands simulating borrower-library interactions:
+The test file contains commands that simulate the library management operations in sequential order:
 
-CONNECT <c_id1> <c_id2>
+```plaintext
+CONNECT <client_id1> <client_id2>
 START_LE_LIBR
 START_LE_LOANERS
-takeBook <c_id> <b_id>
-donateBook <c_id> <b_id> <n_copies>
+takeBook <client_id> <book_id>
+donateBook <client_id> <book_id> <num_copies>
 getMostPopularBook
 checkNumBooksLoaned
+```
 
 
 ### Message Types
